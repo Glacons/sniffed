@@ -34,33 +34,33 @@ class Connection():
         self.s.close()
 
 
-class App():
+class Client():
     def __init__(self):
         self.connection = Connection("localhost", 60000)
 
     def get_infos(self):
-            """
-            Get all the infos from the distant client.
-            """
-            self.connection.sending("InfoSystem")
-            payload = self.connection.receive()
-            infosys = json.loads(payload)
-            if "infosys" in infosys:          
-                for key, value in infosys["infosys"].items():
-                    if "interface" in key :
-                        for key1, value1 in value.items():
-                            print(f"{key1} :")
-                            for e in value1:
-                                if e[0] == -1:
-                                    print(f"\tmac : {e[1]}")
-                                elif e[0] == 23:
-                                    print(f"\tlocal-link : {e[1]}")
-                                else :
-                                    print(f"\tip : {e[1]}")
-                                    print(f"\tmask : {e[2]}")       
-                    else:
-                        print(f"{key} : {value}")
-                _ = input("Enter to continue . . .")
+        """
+        Get all the infos from the distant client.
+        """
+        self.connection.sending("InfoSystem")
+        payload = self.connection.receive()
+        infosys = json.loads(payload)
+        if "infosys" in infosys:
+            for key, value in infosys["infosys"].items():
+                if "interface" in key:
+                    for key1, value1 in value.items():
+                        print(f"{key1} :")
+                        for e in value1:
+                            if e[0] == -1:
+                                print(f"\tmac : {e[1]}")
+                            elif e[0] == 23:
+                                print(f"\tlocal-link : {e[1]}")
+                            else:
+                                print(f"\tip : {e[1]}")
+                                print(f"\tmask : {e[2]}")
+                else:
+                    print(f"{key} : {value}")
+            _ = input("Enter to continue . . .")
 
     def start_shell_session(self):
         pass
@@ -77,7 +77,6 @@ class App():
         self.main()
 
     def main(self):
-
 
         # Start loop until exit
         ans = ""
@@ -98,11 +97,11 @@ class App():
     @staticmethod
     def logo():
         print("\n"
-              "       __       _  __  __          _ \n"
-              "      / _\_ __ (_)/ _|/ _| ___  __| |\n"
-              "      \ \| '_ \| | |_| |_ / _ \/ _` |\n"
-              "      _\ \ | | | |  _|  _|  __/ (_| |\n"
-              "      \__/_| |_|_|_| |_|  \___|\__,_|\n")
+              "  __       _  __  __          _ \n"
+              " / _\_ __ (_)/ _|/ _| ___  __| |\n"
+              " \ \| '_ \| | |_| |_ / _ \/ _` |\n"
+              " _\ \ | | | |  _|  _|  __/ (_| |\n"
+              " \__/_| |_|_|_| |_|  \___|\__,_|\n")
 
     @staticmethod
     def show_menu():
@@ -118,5 +117,5 @@ class App():
               "     \_________________________________/  \n")
 
 
-app = App()
-app.start()
+client = Client()
+client.start()
