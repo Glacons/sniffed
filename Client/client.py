@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import socket
 import json
+import os
 
 
 class Connection():
@@ -63,18 +64,20 @@ class Client():
     def start_shell_session(self):
         self.connection.sending("shell_att")
         path = self.connection.receive()
-        while True:
+        while True: 
             command = input(path+">")
-            self.connection.sending(command)
-            if command.lower() == "quit":
-                break
-            elif "cd" in command.lower():
-                path = self.connection.receive()
-            else:
-                a = self.connection.receive()
-                print(a)
+            if command != "":
+                self.connection.sending(command)
+                if command.lower() == "quit":
+                    break
+                elif "cd" in command.lower():
+                    path = self.connection.receive()
+                else:
+                    a = self.connection.receive()
+                    print(a)
 
     def start(self):
+        os.system("cls")
         # Print logo
         self.logo()
 
@@ -90,6 +93,7 @@ class Client():
         # Start loop until exit
         ans = ""
         while ans != "3":
+            os.system("cls")
             self.show_menu()
             ans = input("What would you like to do? \n> ")
             if ans == "1":
