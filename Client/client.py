@@ -2,7 +2,7 @@
 import socket
 import json
 import os
-
+import re
 
 class Connection():
     def __init__(self, ip: str, port: int):
@@ -64,18 +64,19 @@ class Client():
     def start_shell_session(self):
         self.connection.sending("shell_att")
         path = self.connection.receive()
-        while True: 
+        while True:
             command = input(path+">")
-            if command != "":
+            if re.search('[A-z]', command):
                 self.connection.sending(command)
                 if command.lower() == "quit":
-                    break
+                        break
                 elif "cd" in command.lower():
                     path = self.connection.receive()
                 else:
                     a = self.connection.receive()
                     print(a)
-
+            else :
+                print("Unauthorised command ಠ_ಠ")
     def start(self):
         os.system("cls")
         # Print logo
