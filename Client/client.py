@@ -76,7 +76,7 @@ class Client():
                     a = self.connection.receive()
                     print(a)
             else :
-                print("Unauthorised command ಠ_ಠ")
+                print("Unauthorised command !")
     def start(self):
         os.system("cls")
         # Print logo
