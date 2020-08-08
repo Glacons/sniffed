@@ -93,20 +93,22 @@ class Client():
 
         # Start loop until exit
         ans = ""
-        while ans != "3":
+        while ans != "4":
             os.system("cls")
             self.show_menu()
-            ans = input("What would you like to do? \n> ")
+            ans = input("What would you like to do ? \n> ")
             if ans == "1":
                 self.get_infos()
             elif ans == "2":
                 self.start_shell_session()
+            elif ans == "3":
+                self.show_info()
 
         self.exit()
 
     def exit(self):
         self.connection.stop_listener()
-        print("Goodbye ಠ_ಠ")
+        print("Goodbye !")
 
     @staticmethod
     def logo():
@@ -126,9 +128,23 @@ class Client():
               "     |                                 |  \n"
               "     |   [ 1 ]    Get Info             |  \n"
               "     |   [ 2 ]    Remote Shell         |  \n"
-              "     |   [ 3 ]    Exit                 |  \n"
-              "     |                                 |  \n"
+              "     |   [ 3 ]    Help                 |  \n"
+              "     |   [ 4 ]    Exit                 |  \n"
               "     \_________________________________/  \n")
+
+    @staticmethod
+    def show_info():
+        print("Here is how the software works :\n"
+        "You are on the ""hacker side"" of the software, we suppose that you have infected your target with the malware.\n"
+        "This side is your interface to interact with your target.\n"
+        "There are two main ways to interact : - Get Info\n"
+        "                                      - Remote Shell\n"
+        "Get Info will collect and display information about the victim's system.\n"
+        "Remote Shell displays a remotely accessible console in which you can execute windows commands on your target's system\n"
+        "This project was built purely for academic purposes, not for harm, it is also not perfect.\n"
+        "Glacons.\n")
+
+        input("\nPress ENTER to continue . . .")
 
 
 client = Client()
