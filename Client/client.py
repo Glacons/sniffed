@@ -37,7 +37,7 @@ class Connection():
 
 class Client():
     def __init__(self):
-        self.connection = Connection("localhost", 60000)
+        self.connection = Connection("0.0.0.0", 60000)
 
     def get_infos(self):
         # Get all the infos from the distant client.
@@ -76,7 +76,7 @@ class Client():
                     a = self.connection.receive()
                     print(a)
             else :
-                print("Unauthorised command !")
+                print("Unauthorised command ! ")
     def start(self):
         os.system("cls")
         # Print logo
